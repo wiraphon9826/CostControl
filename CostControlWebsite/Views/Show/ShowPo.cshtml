@@ -1,0 +1,174 @@
+﻿@model IEnumerable<CostControlWebsite.Models.T_Po>
+
+@{
+    ViewBag.Title = "ShowPo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    if (Session["User_name"] == null)
+    {
+        <script type="text/javascript">
+
+            window.location.href = '/Login/LoginIndex/';
+
+
+        </script>
+    }}
+
+        <DOCTYPE! HTML>
+
+
+            <header>
+
+                <div style="text-align:center;width:100%;height:10%;">
+                    <h2>
+                        <span style="color: red">P</span>
+                        <span style="color: blue">o</span>
+                    </h2>
+                </div>
+            </header>
+            @using (Html.BeginForm("Search", "Show", FormMethod.Post))
+            {
+                <form>
+                    <div>
+
+                        <input type="text" id="Search" name="Search" placeholder="@ViewBag.PO">
+
+                        <input type="submit" id="submitId" value="Seacrh" class="btn btn-primary" onclick="location.href='@Url.Action("Search","Show")'" />
+
+                    </div>
+
+                </form>
+
+
+
+            }
+            <br />
+            <div style="height:400px;overflow-y:scroll">
+                <div class="table-responsive">
+                    <table id="customers" class="table">
+                        <tr class="info">
+                            <th>
+                                @Html.DisplayNameFor(model => model.PoNo)
+                            </th>
+
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.PoDate)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.DelDate)
+                            </th>
+
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.Total)
+                            </th>
+
+                            <td>
+                                @Html.DisplayNameFor(model => model.SmtStatus)
+                            </td>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+
+                            <tr class="active">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PoNo)
+                                </td>
+
+
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PoDate)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DelDate)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Total)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SmtStatus)
+                                </td>
+
+                                <td>
+
+                                    <button type="button" onclick="Approved('@item.PoNo');" id="Approved" class="btn btn-success">
+                                        <i class="fa fa-trash-o" aria-hidden="true"></i> Approved
+                                    </button>
+                                    <button type="button" onclick="Holding('@item.PoNo');" id="Holding" class="btn btn-warning">
+                                        <i class="fa fa-trash-o" aria-hidden="true"></i> Holding
+                                    </button>
+                                    <button type="button" onclick="ReJect('@item.PoNo');" id="ReJect" class="btn btn-primary">
+                                        <i class="fa fa-trash-o" aria-hidden="true"></i> ReJect
+                                    </button>
+
+                                </td>
+                            </tr>
+
+                        }
+
+                    </table>
+
+                    <div class="table-responsive">
+                        <div class="modal fade" id="ApprovedPOModal" role="dialog" data-url='@Url.Action("Approved","Show")'></div>
+                    </div>
+                    <div class="table-responsive">
+                        <div class="modal fade" id="HoldingPOModal" role="dialog" data-url='@Url.Action("Holding","Show")'></div>
+                    </div>
+                    <div class="table-responsive">
+                        <div class="modal fade" id="ReJectPOModal" role="dialog" data-url='@Url.Action("ReJectPO","Show")'></div>
+                    </div>
+                </div>
+            </div>
+            <script src="~/Scripts/jquery-3.3.1.js"></script>
+            <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+            @section scripts{
+                <script type="text/javascript">
+                    function Approved(PoNo) {
+
+                        var i = document.getElementById("Approved").value;
+                        console.log(i);
+                        var url = $('#ApprovedPOModal').data('url');
+                        url += "?PoNo=" + PoNo
+                        $.get(url, function (data) {
+                            $("#ApprovedPOModal").html(data);
+                            $("#ApprovedPOModal").modal('show');
+                        });
+                    }
+                    function Holding(PoNo) {
+
+                        var i = document.getElementById("Holding").value;
+                        console.log(i);
+                        var url = $('#HoldingPOModal').data('url');
+                        url += "?PoNo=" + PoNo
+                        $.get(url, function (data) {
+                            $("#HoldingPOModal").html(data);
+                            $("#HoldingPOModal").modal('show');
+                        });
+
+
+                    }
+                    function ReJect(PoNo) {
+
+                        var i = document.getElementById("ReJect").value;
+                        console.log(i);
+                        var url = $('#ReJectPOModal').data('url');
+                        url += "?PoNo=" + PoNo
+                        $.get(url, function (data) {
+                            $("#ReJectPOModal").html(data);
+                            $("#ReJectPOModal").modal('show');
+                        });
+
+
+                    }
+                </script>
+            }
+        </DOCTYPE!>

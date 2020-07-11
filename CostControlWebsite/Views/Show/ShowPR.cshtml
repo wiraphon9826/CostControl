@@ -1,0 +1,168 @@
+﻿@model IEnumerable<CostControlWebsite.Models.T_PR>
+
+@{
+    ViewBag.Title = "ShowPR";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    if (Session["User_name"] == null)
+    {
+        <script type="text/javascript">
+
+            window.location.href = '/Login/LoginIndex/';
+
+
+        </script>
+    }} 
+
+        <DOCTYPE! HTML>
+            <div style="text-align:center;width:100%;height:10%;">
+                <h2>
+                    <span style="color: red">P</span>
+                    <span style="color: blue">R</span>
+                </h2>
+            </div>
+            @using (Html.BeginForm("SearchPR", "Show", FormMethod.Post))
+            {
+                <form>
+                    <div>
+
+                        <input type="text" id="Search" name="Search" placeholder="@ViewBag.PR">
+
+                        <input type="submit" id="submitId" value="Seacrh" class="btn btn-primary" onclick="location.href='@Url.Action("SearchPR","Show")'" />
+
+                    </div>
+                </form>
+            }
+            <br />
+            <div style="height:400px;overflow-y:scroll">
+                <div class="table-responsive">
+                    <table id="customers" class="table">
+                        <tr class="info">
+
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.PR_no)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Area)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PR_date)
+                            </th>
+
+
+
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.Total)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.SmtStatus)
+                            </th>
+                            <th></th>
+                        </tr>
+
+
+
+                        @foreach (var item in Model)
+                        {
+                            <tr class="active">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PR_no)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Area)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PR_date)
+                                </td>
+
+
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Total)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SmtStatus)
+                                </td>
+                                <td>
+
+                                    <button type="button" onclick="Approved('@item.PR_no');" id="Approved" class="btn btn-success">
+                                        <i class="fa fa-trash-o" aria-hidden="true"></i> Approved
+                                    </button>
+                                    <button type="button" onclick="Holding('@item.PR_no');" id="Holding" class="btn btn-warning">
+                                        <i class="fa fa-trash-o" aria-hidden="true"></i> Holding
+                                    </button>
+                                    <button type="button" onclick="ReJect('@item.PR_no');" id="ReJect" class="btn btn-primary">
+                                        <i class="fa fa-trash-o" aria-hidden="true"></i> ReJect
+                                    </button>
+
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+
+                <div class="table-responsive">
+                    <div class="modal fade" id="ApprovedPRModal" role="dialog" data-url='@Url.Action("ApprovedPR","Show")'></div>
+                </div>
+                <div class="table-responsive">
+                    <div class="modal fade" id="HoldingPRModal" role="dialog" data-url='@Url.Action("HoldingPR","Show")'></div>
+                </div>
+                <div class="table-responsive">
+                    <div class="modal fade" id="ReJectPRModal" role="dialog" data-url='@Url.Action("ReJectPR","Show")'></div>
+                </div>
+                </div>
+                <script src="~/Scripts/jquery-3.3.1.js"></script>
+                <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+                @section scripts{
+                    <script type="text/javascript">
+                        function Approved(PR_no) {
+
+                            var i = document.getElementById("Approved").value;
+                            console.log(i);
+                            var url = $('#ApprovedPRModal').data('url');
+                            url += "?PR_no=" + PR_no
+                            $.get(url, function (data) {
+                                $("#ApprovedPRModal").html(data);
+                                $("#ApprovedPRModal").modal('show');
+                            });
+                        }
+                        function Holding(PR_no) {
+
+                            var i = document.getElementById("Holding").value;
+                            console.log(i);
+                            var url = $('#HoldingPRModal').data('url');
+                            url += "?PR_no=" + PR_no
+                            $.get(url, function (data) {
+                                $("#HoldingPRModal").html(data);
+                                $("#HoldingPRModal").modal('show');
+                            });
+
+
+                        }
+                        function ReJect(PR_no) {
+
+                            var i = document.getElementById("ReJect").value;
+                            console.log(i);
+                            var url = $('#ReJectPRModal').data('url');
+                            url += "?PR_no=" + PR_no
+                            $.get(url, function (data) {
+                                $("#ReJectPRModal").html(data);
+                                $("#ReJectPRModal").modal('show');
+                            });
+
+
+                        }
+                    </script>
+                }
+
+
+        </DOCTYPE!>

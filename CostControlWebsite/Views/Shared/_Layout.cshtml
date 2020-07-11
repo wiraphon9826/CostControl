@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -6,9 +7,29 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
+    <style>
+        .footer {
+            margin-bottom: 10px;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #d9edf7;
+            color: #9d9d9d;
+            text-align: center;
+        }
+
+        .test {
+            color: black;
+        }
+    </style>
+
+
+
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-color:#d9edf7;">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -16,22 +37,29 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Home Page", "Index", "Show", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="test">@Html.ActionLink("PO", "ShowPo", "Show")</li>
+                    <li> @Html.ActionLink("PR", "ShowPR", "Show")</li>
+
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a style="color:black">( @Session["User_name"] )</a></li>
+                    <li>@Html.ActionLink("Sign Out", "LoginIndex", "Login")</li>
+
                 </ul>
             </div>
         </div>
     </div>
+
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        <footer class="footer">
+            <p style="margin-top:5px">&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
 
